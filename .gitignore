@@ -1,5 +1,7 @@
 # data files are way too big for git
 *.csv
+*.pickle
+*.pkl
 
 # Built application files
 *.apk
