@@ -1,3 +1,6 @@
+# don't want to keep compiled python files
+*.pyc
+
 # data files are way too big for git
 *.csv
 *.pickle
