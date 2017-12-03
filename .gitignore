@@ -1,3 +1,6 @@
+# data files are way too big for git
+*.csv
+
 # Built application files
 *.apk
 *.ap_
