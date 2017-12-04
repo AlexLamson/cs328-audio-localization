@@ -1,0 +1,74 @@
+====================================================================================================
+====================================================================================================
+====================================================================================================
+====================================================================================================
+Loading data for alex_bedroom.
+Loaded 1073 raw labeled audio data samples.
+Loading data for chris_bedroom.
+Loaded 624 raw labeled audio data samples.
+Found data for 7 rooms : chris_bedroom, downstairs_bathroom, kitchen, living_room, staircase, alex_bedroom, upstairs_bathroom
+Extracting features and labels for 1697 audio windows...
+Shuffling data
+Finished feature extraction over 1697 windows
+Unique labels found: set([0.0, 5.0])
+~~~~~~~~~~~~~~~~~~~~
+Evaluating Random Forest with n_estimators=10
+Average confusion matrix:
+[[ 18.9   0.    0.    0.    0.   43.5   0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [ 33.6   0.    0.    0.    0.   73.7   0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]]
+chris_bedroom | avg accuracy: 0.546 avg precision: 0.359 avg recall: 0.304
+downstairs_bathroom | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+ kitchen | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+living_room | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+staircase | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+alex_bedroom | avg accuracy: 0.546 avg precision: 0.629 avg recall: 0.687
+upstairs_bathroom | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+ average | avg accuracy: 0.156 avg precision: 0.141 avg recall: 0.142
+average precision recall: 0.103
+~~~~~~~~~~~~~~~~~~~~
+Evaluating Random Forest with n_estimators=20
+Average confusion matrix:
+[[ 11.6   0.    0.    0.    0.   50.8   0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [ 18.5   0.    0.    0.    0.   88.8   0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]]
+chris_bedroom | avg accuracy: 0.592 avg precision: 0.382 avg recall: 0.186
+downstairs_bathroom | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+ kitchen | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+living_room | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+staircase | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+alex_bedroom | avg accuracy: 0.592 avg precision: 0.636 avg recall: 0.828
+upstairs_bathroom | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+ average | avg accuracy: 0.169 avg precision: 0.145 avg recall: 0.145
+average precision recall: 0.114
+~~~~~~~~~~~~~~~~~~~~
+Evaluating Random Forest with n_estimators=50
+Average confusion matrix:
+[[  4.7   0.    0.    0.    0.   57.7   0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]
+ [  7.9   0.    0.    0.    0.   99.4   0. ]
+ [  0.    0.    0.    0.    0.    0.    0. ]]
+chris_bedroom | avg accuracy: 0.613 avg precision: 0.342 avg recall: 0.081
+downstairs_bathroom | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+ kitchen | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+living_room | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+staircase | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+alex_bedroom | avg accuracy: 0.613 avg precision: 0.634 avg recall: 0.927
+upstairs_bathroom | avg accuracy: 0.000 avg precision: 0.000 avg recall: 0.000
+ average | avg accuracy: 0.175 avg precision: 0.139 avg recall: 0.144
+average precision recall: 0.121
+====================================================================================================
+====================================================================================================
+====================================================================================================
+====================================================================================================
