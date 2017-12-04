@@ -39,6 +39,10 @@ data_dir = "data"
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
 
+if os.path.exists("{}/{}".format(data_dir, filename)):
+    print("file already exists, please pick a unique filename")
+    exit()
+
 '''
     This socket is used to send data back through the data collection server.
     It is used to complete the authentication. It may also be used to send
