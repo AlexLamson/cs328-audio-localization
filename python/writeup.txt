@@ -70,4 +70,13 @@ eng_lab_307B-2
 lots of keyboard typing
 some muttering from people in the room
 sound of lecturer in opposite room (room 306)
+sounds of laughing from hallway
 
+eng_lab_323-1
+-------------
+04:15:05 PM - 04:23:56 PM
+distant talking in the hallway
+sound of quiet keyboard typing
+hum from projector
+sound of clapping from adjacent classroom
+sound of bathroom door opening and closing
