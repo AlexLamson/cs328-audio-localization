@@ -22,7 +22,7 @@ user_id = "crubnpi6wk4ckhsp"
 
 # TODO: Change the filename of the output file.
 # You should keep it in the format "room-data-<roomname>-#.csv"
-filename = "room-data-eng_lab_hallway_box-1.csv"  # "room-data-upstairsbathroom-1.csv"
+filename = "room-data-eng_lab_307B-2.csv"  # "room-data-upstairsbathroom-1.csv"
 
 
 
@@ -40,7 +40,7 @@ if os.path.exists("{}/{}".format(data_dir, filename)):
 
 filename_components = filename.split("-")  # split by the '-' character
 speaker = filename_components[2]
-class_names = 'eng_lab_304 eng_lab_hallway_box'
+class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B'.split()
 # class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 label = class_names.index(speaker)  # forgetting to change the label is stupid
 
@@ -135,7 +135,7 @@ try:
                 if (sensor_type == u"SENSOR_AUDIO"):
                     t = data['data']['t']
                     audio_buffer = data['data']['values']
-                    print("Received audio data of length {}".format(len(audio_buffer)))
+                    print("{} | Received audio data of length {}".format(t, len(audio_buffer)))
                     labelled_instance = [t]
                     labelled_instance.extend(audio_buffer)
                     labelled_instance.append(label)

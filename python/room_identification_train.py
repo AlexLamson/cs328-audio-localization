@@ -47,7 +47,8 @@ if not os.path.exists(output_dir):
 # the filenames should be in the form 'room-data-subject-1.csv', e.g. 'room-data-Erik-1.csv'. If they
 # are not, that's OK but the progress output will look nonsensical
 
-class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
+class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B'.split()
+# class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 
 data = np.zeros((0, 8002))  # 8002 = 1 (timestamp) + 8000 (for 8kHz audio data) + 1 (label)
 

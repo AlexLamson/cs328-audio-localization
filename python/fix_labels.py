@@ -5,9 +5,9 @@
 3 - none
 '''
 
-in_filename = "backup/speaker-data-none-2.csv"
-out_filename = "backup/speaker-data-none-2-correctlabels.csv"
-correct_label = "3.000000000000000000e+00"
+in_filename = "backup/room-data-eng_lab_hallway_box-1.csv"
+out_filename = "backup/room-data-eng_lab_hallway_box-1-correctlabels.csv"
+correct_label = "1.000000000000000000e+00"
 
 with open(out_filename, 'a') as out:
     with open(in_filename, "r") as lines:
