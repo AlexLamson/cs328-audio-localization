@@ -16,14 +16,14 @@ import sys
 import json
 import numpy as np
 import os
+from datetime import datetime
 
 # TODO: Replace the string with your user ID
 user_id = "crubnpi6wk4ckhsp"
 
 # TODO: Change the filename of the output file.
 # You should keep it in the format "room-data-<roomname>-#.csv"
-filename = "room-data-eng_lab_307B-2.csv"  # "room-data-upstairsbathroom-1.csv"
-
+filename = "room-data-eng_lab_307B-3.csv"  # "room-data-upstairsbathroom-1.csv"
 
 
 # TODO: Change the label to match the speaker; it must be numeric
@@ -43,6 +43,8 @@ speaker = filename_components[2]
 class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B'.split()
 # class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 label = class_names.index(speaker)  # forgetting to change the label is stupid
+
+start_time = ""
 
 '''
     This socket is used to send data back through the data collection server.
@@ -135,6 +137,10 @@ try:
                 if (sensor_type == u"SENSOR_AUDIO"):
                     t = data['data']['t']
                     audio_buffer = data['data']['values']
+
+                    if start_time == "":
+                        start_time = datetime.now().strftime('%I:%M:%S %p')
+
                     print("{} | Received audio data of length {}".format(t, len(audio_buffer)))
                     labelled_instance = [t]
                     labelled_instance.extend(audio_buffer)
@@ -155,6 +161,7 @@ try:
                 print(e)
             pass
 except KeyboardInterrupt:
+    end_time = datetime.now().strftime('%I:%M:%S %p')
     # occurs when the user presses Ctrl-C
     print("User Interrupt. Saving labelled data...")
     labelled_data = np.asarray(labelled_data)
@@ -168,3 +175,5 @@ finally:
     print >>sys.stderr, 'closing socket for sending data'
     send_socket.shutdown(socket.SHUT_RDWR)
     send_socket.close()
+
+    print("Data collected in time range: {} - {}".format(start_time, end_time))
