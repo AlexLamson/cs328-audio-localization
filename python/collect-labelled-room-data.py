@@ -22,26 +22,27 @@ user_id = "crubnpi6wk4ckhsp"
 
 # TODO: Change the filename of the output file.
 # You should keep it in the format "room-data-<roomname>-#.csv"
-filename = "room-data-chris_bedroom-1.csv"  # "room-data-upstairsbathroom-1.csv"
+filename = "room-data-eng_lab_hallway_box-1.csv"  # "room-data-upstairsbathroom-1.csv"
 
 
 
 # TODO: Change the label to match the speaker; it must be numeric
-
-
-filename_components = filename.split("-")  # split by the '-' character
-speaker = filename_components[2]
-class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
-label = class_names.index(speaker)  # forgetting to change the label is stupid
 
 data_dir = "data"
 
 if not os.path.exists(data_dir):
     os.mkdir(data_dir)
 
+
 if os.path.exists("{}/{}".format(data_dir, filename)):
     print("file already exists, please pick a unique filename")
     exit()
+
+filename_components = filename.split("-")  # split by the '-' character
+speaker = filename_components[2]
+class_names = 'eng_lab_304 eng_lab_hallway_box'
+# class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
+label = class_names.index(speaker)  # forgetting to change the label is stupid
 
 '''
     This socket is used to send data back through the data collection server.
