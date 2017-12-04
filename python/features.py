@@ -48,11 +48,34 @@ class FeatureExtractor():
         # self.max_pitch = float('-inf')
 
     def get_n_features(self):
-        out = 11 + 975 # formants + mfcc deltas
-        if self.include_delta_deltas:
-            out += 923
-        if pitches:
-            out += 17
+        # out = 11 + 975 # formants + mfcc deltas
+        # if self.include_delta_deltas:
+        #     out += 923
+        # if pitches:
+        #     out += 17
+        out = 1000
+        return out
+
+    def _compute_frequencies(self, audio_buffer):
+        f = np.fft.fft(audio_buffer)
+        # print(f.shape)
+
+        target_size = 1000 # if this doesn't divide the length of the buffer perfectly, everything is screwed
+        bin_size = f.shape[0]/target_size
+
+        f = np.abs(f)
+
+        out = np.zeros(target_size)
+
+        for i in range(target_size):
+            if i == 0:
+                for j in range(1, bin_size):
+                    out[i] += f[j]
+                out[i] /= bin_size - 1
+            for j in range(bin_size):
+                out[i] += f[i*bin_size + j]
+            out[i] /= bin_size
+
         return out
 
     def _compute_formants(self, audio_buffer):
@@ -362,9 +385,10 @@ class FeatureExtractor():
 
         """
 
-        x = self._compute_formant_features(window)
-        x = np.append(x, self._compute_delta_coefficients(window))
-        if pitches:
-            x = np.append(x, self._compute_pitch_features(window))
+        # x = self._compute_formant_features(window)
+        # x = np.append(x, self._compute_delta_coefficients(window))
+        # if pitches:
+        #     x = np.append(x, self._compute_pitch_features(window))
+        x = self._compute_frequencies(window)
 
         return x
