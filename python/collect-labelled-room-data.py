@@ -2,7 +2,7 @@
 """
 Created on Wed Sep  7 15:34:11 2016
 
-Assignment A3 : Data Collection
+Final Project : Data Collection
 
 @author: CS328
 
@@ -23,7 +23,7 @@ user_id = "crubnpi6wk4ckhsp"
 
 # TODO: Change the filename of the output file.
 # You should keep it in the format "room-data-<roomname>-#.csv"
-filename = "room-data-eng_lab_307B-3.csv"  # "room-data-upstairsbathroom-1.csv"
+filename = "room-data-eng_lab_323-2.csv"  # "room-data-upstairsbathroom-1.csv"
 
 
 # TODO: Change the label to match the speaker; it must be numeric
@@ -40,11 +40,12 @@ if os.path.exists("{}/{}".format(data_dir, filename)):
 
 filename_components = filename.split("-")  # split by the '-' character
 speaker = filename_components[2]
-class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B'.split()
+class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
 # class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 label = class_names.index(speaker)  # forgetting to change the label is stupid
 
 start_time = ""
+total_samples_collected = 0
 
 '''
     This socket is used to send data back through the data collection server.
@@ -138,10 +139,19 @@ try:
                     t = data['data']['t']
                     audio_buffer = data['data']['values']
 
+                    total_samples_collected += 1
                     if start_time == "":
                         start_time = datetime.now().strftime('%I:%M:%S %p')
+                        start_time_unix = t
 
-                    print("{} | Received audio data of length {}".format(t, len(audio_buffer)))
+                        # for the sake of preventing errors
+                        end_time_unix = t
+                        end_time = start_time
+                    else:
+                        end_time_unix = t
+                        end_time = datetime.now().strftime('%I:%M:%S %p')
+
+                    print("{} - {} | {} samples | Audio data length: {}".format(start_time, end_time, total_samples_collected, len(audio_buffer)))
                     labelled_instance = [t]
                     labelled_instance.extend(audio_buffer)
                     labelled_instance.append(label)
@@ -161,7 +171,6 @@ try:
                 print(e)
             pass
 except KeyboardInterrupt:
-    end_time = datetime.now().strftime('%I:%M:%S %p')
     # occurs when the user presses Ctrl-C
     print("User Interrupt. Saving labelled data...")
     labelled_data = np.asarray(labelled_data)
@@ -176,4 +185,5 @@ finally:
     send_socket.shutdown(socket.SHUT_RDWR)
     send_socket.close()
 
-    print("Data collected in time range: {} - {}".format(start_time, end_time))
+    total_minutes_collected = (end_time_unix - start_time_unix)/1000.0/60.0
+    print("Data collected in time range: {} - {} ({} minutes)".format(start_time, end_time, total_minutes_collected))
