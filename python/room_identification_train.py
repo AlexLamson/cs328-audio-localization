@@ -89,17 +89,39 @@ sys.stdout.flush()
 X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
-
+graph = True
+if graph:
+    mean_freqs = [None] * len(class_names)
 
 for i, window_with_timestamp_and_label in enumerate(data):
     window = window_with_timestamp_and_label[1:-1]
     label = data[i, -1]
+
+    if graph:
+        if mean_freqs[int(label)] is None:
+            mean_freqs[int(label)] = np.fft.fft(window)[1:]
+        else:
+            mean_freqs[int(label)] += np.fft.fft(window)[1:]
+
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
     if (len(x) != X.shape[1]):
         print("Received feature vector of length {}. Expected feature vector of length {}.".format(len(x), X.shape[1]))
     X = np.append(X, np.reshape(x, (1, -1)), axis=0)
     y = np.append(y, label)
+
+if graph:
+    import matplotlib.pyplot as plt
+
+    for i, mf in enumerate(mean_freqs):
+        if mf is not None:
+            mf /= len(data)
+
+            plt.plot(mf)
+            plt.title("mean freqencies for " + class_names[i])
+            plt.show()
+
+
 
 
 # print("oversampling the data")
