@@ -22,10 +22,8 @@ coat rustling
 
 chris_bedroom-1
 ---------------
-5:48pm-
+5:48pm-5:58
 phone was placed on bed
 light was flicked off
 door was closed
-*the room was empty for duration*
-
-
+*the room was empty for the rest of the duration*
