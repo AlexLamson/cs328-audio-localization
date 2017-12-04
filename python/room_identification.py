@@ -75,7 +75,7 @@ def predict(window):
 
     # TODO: change these labels to match your classes
     # classes = ["Erik", "Sean", "None", "Soha", "Alex", "Chris", "Eben"]
-    classes = 'alex chris eben none'.split()  # the set of classes, i.e. speakers
+    classes = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 
     index = classifier.predict(X)
     speaker = classes[int(index)]

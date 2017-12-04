@@ -31,7 +31,7 @@ filename = "room-data-chris_bedroom-1.csv"  # "room-data-upstairsbathroom-1.csv"
 
 filename_components = filename.split("-")  # split by the '-' character
 speaker = filename_components[2]
-class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()  # the set of classes, i.e. speakers
+class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 label = class_names.index(speaker)  # forgetting to change the label is stupid
 
 data_dir = "data"

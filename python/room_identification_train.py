@@ -4,13 +4,13 @@ Created on Wed Sep 21 16:02:58 2016
 
 @author: CS328
 
-Assignment 3 : Speaker Identification
+Final project : room Identification
 
 This is the solution script for training a model for identifying
-speaker from audio data. The script loads all labelled speaker
+room from audio data. The script loads all labelled room
 audio data files in the specified directory. It extracts features
 from the raw data and trains and evaluates a classifier to identify
-the speaker.
+the room.
 
 """
 from __future__ import division
@@ -44,31 +44,29 @@ output_dir = 'training_output'  # directory where the classifier(s) are stored
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 
-# the filenames should be in the form 'speaker-data-subject-1.csv', e.g. 'speaker-data-Erik-1.csv'. If they
+# the filenames should be in the form 'room-data-subject-1.csv', e.g. 'room-data-Erik-1.csv'. If they
 # are not, that's OK but the progress output will look nonsensical
 
-# class_names = 'alex none'.split()  # the set of classes, i.e. speakers
-class_names = 'alex chris eben none'.split()  # the set of classes, i.e. speakers
-# class_names = 'erik sean none soha alex chris eben'.split()  # the set of classes, i.e. speakers
+class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 
 data = np.zeros((0, 8002))  # 8002 = 1 (timestamp) + 8000 (for 8kHz audio data) + 1 (label)
 
 for filename in os.listdir(data_dir):
-    if filename.endswith(".csv") and filename.startswith("speaker-data"):
+    if filename.endswith(".csv") and filename.startswith("room-data"):
         filename_components = filename.split("-")  # split by the '-' character
-        speaker = filename_components[2]
-        print("Loading data for {}.".format(speaker))
-        if speaker not in class_names:
-            class_names.append(speaker)
-        speaker_label = class_names.index(speaker)
+        room = filename_components[2]
+        print("Loading data for {}.".format(room))
+        if room not in class_names:
+            class_names.append(room)
+        room_label = class_names.index(room)
         sys.stdout.flush()
         data_file = os.path.join(data_dir, filename)
-        data_for_current_speaker = np.genfromtxt(data_file, delimiter=',')
-        print("Loaded {} raw labeled audio data samples.".format(len(data_for_current_speaker)))
+        data_for_current_room = np.genfromtxt(data_file, delimiter=',')
+        print("Loaded {} raw labeled audio data samples.".format(len(data_for_current_room)))
         sys.stdout.flush()
-        data = np.append(data, data_for_current_speaker, axis=0)
+        data = np.append(data, data_for_current_room, axis=0)
 
-print("Found data for {} speakers : {}".format(len(class_names), ", ".join(class_names)))
+print("Found data for {} rooms : {}".format(len(class_names), ", ".join(class_names)))
 
 # %%---------------------------------------------------------------------------
 #
@@ -213,7 +211,7 @@ def evaluate_model(clf):
     avg_accuracy, avg_precision, avg_recall = np.mean(averages[:,0]), np.mean(averages[:,1]), np.mean(averages[:,2])
     print("{:>8} | avg accuracy: {:.3f} avg precision: {:.3f} avg recall: {:.3f}".format("average", avg_accuracy, avg_precision, avg_recall))
     # print("averages: {}".format(averages))
-    return np.mean(averages)  # this is kinda bad, but it's nice to have a single number
+    return np.mean(averages[1:])  # this is kinda bad, but it's nice to have a single number
 
 
 best_clf = None
@@ -227,7 +225,7 @@ best_score = 0
 #     clf = DecisionTreeClassifier(criterion="entropy", max_depth=7, max_features=i)
 #     score = evaluate_model(clf)
 #     # print("Used features:", clf.n_features_)
-#     print("average accuracy precision recall: {:.3f}".format(score))
+#     print("average precision recall: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -243,7 +241,7 @@ for i in [10, 20, 50]:  # 100 takes too long to train with double the features
     print("Evaluating Random Forest with n_estimators={}".format(i))
     clf = RandomForestClassifier(n_estimators=i)
     score = evaluate_model(clf)
-    print("average accuracy precision recall: {:.3f}".format(score))
+    print("average precision recall: {:.3f}".format(score))
 
     if score > best_score:
         best_clf = clf
@@ -259,7 +257,7 @@ for i in [10, 20, 50]:  # 100 takes too long to train with double the features
 # clf = GridSearchCV(clf, parameters)
 # score = evaluate_model(clf)
 # print(clf.best_params_)
-# print("average accuracy precision recall: {:.3f}".format(score))
+# print("average precision recall: {:.3f}".format(score))
 # if score > best_score:
 #     best_clf = clf
 #     best_score = score
@@ -272,7 +270,7 @@ for i in [10, 20, 50]:  # 100 takes too long to train with double the features
 #     print("Evaluating k-NN with k={}".format(i))
 #     clf = KNeighborsClassifier(n_neighbors=i, weights='distance')
 #     score = evaluate_model(clf)
-#     print("average accuracy precision recall: {:.3f}".format(score))
+#     print("average precision recall: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -285,7 +283,7 @@ for i in [10, 20, 50]:  # 100 takes too long to train with double the features
 #     print("Evaluating Logistic Regression with C={}".format(i))
 #     clf = LogisticRegression(C=i)
 #     score = evaluate_model(clf)
-#     print("average accuracy precision recall: {:.3f}".format(score))
+#     print("average precision recall: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -298,7 +296,7 @@ for i in [10, 20, 50]:  # 100 takes too long to train with double the features
 #     print("Evaluating Support Vector Machine with C={}".format(i))
 #     clf = SVC()
 #     score = evaluate_model(clf)
-#     print("average accuracy precision recall: {:.3f}".format(score))
+#     print("average precision recall: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
