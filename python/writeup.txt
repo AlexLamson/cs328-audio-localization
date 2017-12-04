@@ -27,3 +27,47 @@ phone was placed on bed
 light was flicked off
 door was closed
 *the room was empty for the rest of the duration*
+
+eng_lab_hallway_box-1
+---------------------
+phone was place inside far left deposit box in hallway
+2:54-3:04
+sound of doors opening and closing
+sound of toilet flushing in adjacent bathroom
+(not sure any other sounds that occurred because I didn't stay in the hallway the entire time)
+
+eng_lab_304-1
+-------------
+room 304 in engineering lab
+phone placed on right (from perspective of a student) table in the middle on the edge closest to the desks
+both door were open, and the classroom was empty save two people talking
+2:26pm-2:36pm
+coughing from hallway
+people walking around
+muttering from the corner of the classroom
+doors opening
+the hvac humming
+sighs from hallway
+talking from the hallway
+person talking normally in left doorway
+someone sneezing in the hallway
+sliding footsteps
+lecturer talking in adjacent room (room 303)
+sound of water bottle filling in hallway
+sound of hallway door slamming
+
+eng_lab_307B-1
+------------
+3:22-3:24
+lots of keyboard typing
+some muttering from people in the room
+sound of lecturer in opposite room (room 306)
+recording ended earlier than desired due to wifi connection issues
+
+eng_lab_307B-2
+------------
+3:28-
+lots of keyboard typing
+some muttering from people in the room
+sound of lecturer in opposite room (room 306)
+
