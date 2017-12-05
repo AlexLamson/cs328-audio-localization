@@ -23,7 +23,7 @@ user_id = "crubnpi6wk4ckhsp"
 
 # TODO: Change the filename of the output file.
 # You should keep it in the format "room-data-<roomname>-#.csv"
-filename = "room-data-eng_lab_323-2.csv"  # "room-data-upstairsbathroom-1.csv"
+filename = "room-data-living_room-2.csv"  # "room-data-upstairsbathroom-1.csv"
 
 
 # TODO: Change the label to match the speaker; it must be numeric
@@ -40,8 +40,8 @@ if os.path.exists("{}/{}".format(data_dir, filename)):
 
 filename_components = filename.split("-")  # split by the '-' character
 speaker = filename_components[2]
-class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
-# class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
+# class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
+class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 label = class_names.index(speaker)  # forgetting to change the label is stupid
 
 start_time = ""

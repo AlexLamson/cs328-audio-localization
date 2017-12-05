@@ -80,3 +80,41 @@ sound of quiet keyboard typing
 hum from projector
 sound of clapping from adjacent classroom
 sound of bathroom door opening and closing
+
+living_room-1
+-------------
+07:44:59 PM - 08:00:58 PM
+phone is on pillow on couch
+tv is on playing "love it or list it"
+contains some speaking
+contains some speaking by Michelle and Alex
+
+staircase-1
+-------------
+08:03:55 PM - 08:25:32 PM
+phone is 2nd-highest step, on the right side
+tv is on playing "the voice"
+contains some speaking by Michelle and Alex
+
+kitchen-1
+---------
+08:28:34 PM - 08:52:15 PM (23.7 minutes)
+phone is on counter to left of sink
+tv is playing "the voice"
+contains some speaking from Michelle and Alex
+
+downstairs_bathroom-1
+---------
+08:55:48 PM - 09:29:18 PM (33.5 minutes)
+phone was on right side of sink
+tv was on playing "the voice"
+michelle and alex talked a bit
+the first 15 minutes, the door was open
+the second 15 minutes, the door was closed
+
+chris_bedroom-2
+---------
+10:01:41 PM - 10:30:53 PM (27.8500666667 minutes)
+phone was on middle of desk
+first 15 min, door open
+second 15 min, door closed
