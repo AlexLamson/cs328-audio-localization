@@ -89,15 +89,15 @@ sys.stdout.flush()
 X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
-graph = True
-if graph:
+show_mean_freqs = True
+if show_mean_freqs:
     mean_freqs = [None] * len(class_names)
 
 for i, window_with_timestamp_and_label in enumerate(data):
     window = window_with_timestamp_and_label[1:-1]
     label = data[i, -1]
 
-    if graph:
+    if show_mean_freqs:
         if mean_freqs[int(label)] is None:
             mean_freqs[int(label)] = np.fft.fft(window)[1:]
         else:
@@ -110,7 +110,7 @@ for i, window_with_timestamp_and_label in enumerate(data):
     X = np.append(X, np.reshape(x, (1, -1)), axis=0)
     y = np.append(y, label)
 
-if graph:
+if show_mean_freqs:
     import matplotlib.pyplot as plt
 
     for i, mf in enumerate(mean_freqs):
