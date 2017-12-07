@@ -89,20 +89,16 @@ sys.stdout.flush()
 X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
-show_mean_freqs = False
-if show_mean_freqs:
-    mean_freqs = [None] * len(class_names)
+all_freqs = []
+for _ in range(len(class_names)):
+    all_freqs += [[]]
 
 for i, window_with_timestamp_and_label in enumerate(data):
     window = window_with_timestamp_and_label[1:-1]
     label = data[i, -1]
 
-    if show_mean_freqs:
-        f = np.abs(np.fft.fft(window))
-        if mean_freqs[int(label)] is None:
-            mean_freqs[int(label)] = f[1:int(f.shape[0]/2)]
-        else:
-            mean_freqs[int(label)] += f[1:int(f.shape[0]/2)]
+    freqs = np.abs(np.fft.fft(window))
+    all_freqs[int(label)] += [freqs[1:int(freqs.shape[0]/2)]]
 
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
@@ -111,16 +107,31 @@ for i, window_with_timestamp_and_label in enumerate(data):
     X = np.append(X, np.reshape(x, (1, -1)), axis=0)
     y = np.append(y, label)
 
-if show_mean_freqs:
+show_graphs = False
+
+show_mean_freqs = True
+show_vars = True
+
+if show_graphs:
+    print("Graphing...")
     import matplotlib.pyplot as plt
 
-    for i, mf in enumerate(mean_freqs):
-        if mf is not None:
-            mf /= len(data)
+    for i, freqs in enumerate(all_freqs):
+        all_freqs[i] = np.array(freqs)
 
-            plt.plot(mf)
-            plt.title("mean freqencies for " + class_names[i])
-            plt.show()
+    if show_mean_freqs:
+        for i, freqs in enumerate(all_freqs):
+            if freqs.shape[0] > 0:
+                plt.plot(np.mean(freqs, axis=1))
+                plt.title("mean freqencies for " + class_names[i])
+                plt.show()
+
+    if show_vars:
+        for i, freqs in enumerate(all_freqs):
+            if freqs.shape[0] > 0:
+                plt.plot(np.var(freqs, axis=1))
+                plt.title("variance for " + class_names[i])
+                plt.show()
 
 
 
