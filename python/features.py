@@ -61,9 +61,8 @@ class FeatureExtractor():
         # print(f.shape)
 
         target_size = 1000 # if this doesn't divide the length of the buffer perfectly, everything is screwed
-        bin_size = f.shape[0]/target_size
-
         f = np.abs(f)[:4000]
+        bin_size = f.shape[0]/target_size
 
         out = np.zeros(target_size)
 
