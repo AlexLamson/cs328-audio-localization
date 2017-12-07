@@ -53,7 +53,7 @@ class FeatureExtractor():
         #     out += 923
         # if pitches:
         #     out += 17
-        out = 1000 + 3
+        out = 1000 + 8
         return out
 
     def _compute_frequencies(self, audio_buffer):
@@ -63,7 +63,7 @@ class FeatureExtractor():
         target_size = 1000 # if this doesn't divide the length of the buffer perfectly, everything is screwed
         bin_size = f.shape[0]/target_size
 
-        f = np.abs(f)
+        f = np.abs(f)[:4000]
 
         out = np.zeros(target_size)
 
@@ -76,9 +76,9 @@ class FeatureExtractor():
                 out[i] += f[i*bin_size + j]
             out[i] /= bin_size
 
-        top_3 = np.argsort(f)[-3:]
+        top_8 = np.argsort(f)[-8:]
 
-        return np.append(out, top_3)
+        return np.append(out, top_8)
 
     def _compute_formants(self, audio_buffer):
         """
