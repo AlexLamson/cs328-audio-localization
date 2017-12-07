@@ -47,8 +47,8 @@ if not os.path.exists(output_dir):
 # the filenames should be in the form 'room-data-subject-1.csv', e.g. 'room-data-Erik-1.csv'. If they
 # are not, that's OK but the progress output will look nonsensical
 
-class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
-# class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
+# class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
+class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 
 data = np.zeros((0, 8002))  # 8002 = 1 (timestamp) + 8000 (for 8kHz audio data) + 1 (label)
 
@@ -89,7 +89,7 @@ sys.stdout.flush()
 X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
-show_mean_freqs = True
+show_mean_freqs = False
 if show_mean_freqs:
     mean_freqs = [None] * len(class_names)
 
@@ -234,7 +234,14 @@ def evaluate_model(clf):
     avg_accuracy, avg_precision, avg_recall = np.mean(averages[:,0]), np.mean(averages[:,1]), np.mean(averages[:,2])
     print("{:>8} | avg accuracy: {:.3f} avg precision: {:.3f} avg recall: {:.3f}".format("average", avg_accuracy, avg_precision, avg_recall))
     # print("averages: {}".format(averages))
-    return np.mean(averages[1:])  # this is kinda bad, but it's nice to have a single number
+    
+    precision = averages[1]
+    recall = averages[2]
+    f_score = (2*precision*recall)/(precision+recall)
+    return f_score
+    # return np.mean(averages[1:])  # this is kinda bad, but it's nice to have a single number
+
+
 
 
 best_clf = None

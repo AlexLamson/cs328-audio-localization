@@ -74,8 +74,8 @@ def predict(window):
     X = np.reshape(X, (1, -1))
 
     # TODO: change these labels to match your classes
-    classes = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
-    # classes = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
+    # classes = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
+    classes = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 
     index = classifier.predict(X)
     speaker = classes[int(index)]
