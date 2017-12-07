@@ -98,10 +98,11 @@ for i, window_with_timestamp_and_label in enumerate(data):
     label = data[i, -1]
 
     if show_mean_freqs:
+        f = np.abs(np.fft.fft(window))
         if mean_freqs[int(label)] is None:
-            mean_freqs[int(label)] = np.fft.fft(window)[1:]
+            mean_freqs[int(label)] = f[1:int(f.shape[0]/2)]
         else:
-            mean_freqs[int(label)] += np.fft.fft(window)[1:]
+            mean_freqs[int(label)] += f[1:int(f.shape[0]/2)]
 
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
