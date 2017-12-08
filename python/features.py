@@ -37,7 +37,6 @@ from python_speech_features import mfcc
 # from pocketsphinx.pocketsphinx import *
 # from sphinxbase.sphinxbase import *
 
-
 class FeatureExtractor():
     def __init__(self, debug=True, include_delta_deltas=False):
         self.debug = debug
@@ -61,16 +60,16 @@ class FeatureExtractor():
         # print(f.shape)
 
         target_size = 1000 # if this doesn't divide the length of the buffer perfectly, everything is screwed
-        f = np.abs(f)[:4000]
+        f = np.abs(f)[1:4001]
         bin_size = f.shape[0]/target_size
 
         out = np.zeros(target_size)
 
         for i in range(target_size):
-            if i == 0:
-                for j in range(1, bin_size):
-                    out[i] += f[j]
-                out[i] /= bin_size - 1
+            # if i == 0:
+            #     for j in range(1, bin_size):
+            #         out[i] += f[j]
+            #     out[i] /= bin_size - 1
             for j in range(bin_size):
                 out[i] += f[i*bin_size + j]
             out[i] /= bin_size

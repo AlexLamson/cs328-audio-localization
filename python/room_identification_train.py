@@ -98,7 +98,9 @@ for i, window_with_timestamp_and_label in enumerate(data):
     label = data[i, -1]
 
     freqs = np.abs(np.fft.fft(window))
-    all_freqs[int(label)] += [freqs[1:int(freqs.shape[0]/2)]]
+    freqs = freqs[1:int(freqs.shape[0]/2)]
+    all_freqs[int(label)] += [freqs]
+    # all_freqs[int(label)] += [freqs/np.max(freqs)] # normalize each window
 
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
@@ -247,9 +249,7 @@ def evaluate_model(clf):
     print("{:>8} | avg accuracy: {:.3f} avg precision: {:.3f} avg recall: {:.3f}".format("average", avg_accuracy, avg_precision, avg_recall))
     # print("averages: {}".format(averages))
     
-    precision = averages[1]
-    recall = averages[2]
-    f_score = (2*precision*recall)/(precision+recall)
+    f_score = (2*avg_precision*avg_recall)/(avg_precision+avg_recall)
     return f_score
     # return np.mean(averages[1:])  # this is kinda bad, but it's nice to have a single number
 
