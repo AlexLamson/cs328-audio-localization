@@ -118,3 +118,25 @@ chris_bedroom-2
 phone was on middle of desk
 first 15 min, door open
 second 15 min, door closed
+
+living_room-2
+-------------
+10:51:38 PM - 12:52:21 AM (120.73335 minutes)
+phone is on rug in middle of room
+tv is on playing "house hunters international"
+sounds from the game "7"
+contains lots of speaking by Michelle and Alex and Chris and Q
+
+eng_lab_307B-3
+---------
+12:19:17 PM - 12:29:51 PM (10.5666333333 minutes)
+lots of keyboard typing
+some muttering from people in the room
+sound of lecturer in opposite room (room 306)
+
+eng_lab_hallway_box-2
+---------
+phone was balanced on top of box
+12:35:34 PM - 12:50:40 PM (15.1062166667 minutes)
+sound of doors opening and closing
+sounds of stepping
