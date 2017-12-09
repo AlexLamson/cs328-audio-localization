@@ -142,6 +142,7 @@ if show_graphs:
 with open('training_output/variance.pickle', 'wb') as f:  # 'wb' stands for 'write bytes'
     pickle.dump(var_array, f)
 
+exit()
 
 # print("oversampling the data")
 # from imblearn.over_sampling import SMOTE
