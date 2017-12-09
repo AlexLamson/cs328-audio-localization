@@ -114,6 +114,8 @@ show_graphs = True
 show_mean_freqs = True
 show_vars = True
 
+var_array = []
+
 if show_graphs:
     print("Graphing...")
     import matplotlib.pyplot as plt
@@ -131,11 +133,14 @@ if show_graphs:
     if show_vars:
         for i, freqs in enumerate(all_freqs):
             if freqs.shape[0] > 0:
-                plt.plot(np.var(freqs, axis=0))
+                var_temp = np.var(freqs, axis=0)
+                plt.plot(var_temp)
+                var_array = np.append(var_array, var_temp)
                 plt.title("variance for " + class_names[i])
                 plt.show()
 
-
+with open('training_output/variance.pickle', 'wb') as f:  # 'wb' stands for 'write bytes'
+    pickle.dump(var_array, f)
 
 
 # print("oversampling the data")
