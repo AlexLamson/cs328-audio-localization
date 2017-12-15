@@ -117,6 +117,7 @@ for i, window_with_timestamp_and_label in enumerate(data):
     x = feature_extractor.extract_features(window)
 
     #this scales the data with scalings that was linear from 1 to data_size+1 before being shuffled.
+    #we are doing this in attempts to make volume invariant so it doesn't overfit to the volume of the room
     x = x*data_scaling[i]/data_size
 
     if (len(x) != X.shape[1]):
