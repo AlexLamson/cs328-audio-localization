@@ -89,6 +89,8 @@ sys.stdout.flush()
 X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
+data_size = len(data)
+
 all_freqs = []
 for _ in range(len(class_names)):
     all_freqs += [[]]
@@ -104,6 +106,9 @@ for i, window_with_timestamp_and_label in enumerate(data):
 
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
+
+    x = x**(i+1)/data_size      #this line makes the data increase linearly from 0% to 100%
+
     if (len(x) != X.shape[1]):
         print("Received feature vector of length {}. Expected feature vector of length {}.".format(len(x), X.shape[1]))
     X = np.append(X, np.reshape(x, (1, -1)), axis=0)
@@ -114,7 +119,7 @@ show_graphs = True
 show_mean_freqs = True
 show_vars = True
 
-var_array = []
+var_array = []      #the array used to create the variance file
 
 if show_graphs:
     print("Graphing...")
@@ -123,22 +128,24 @@ if show_graphs:
     for i, freqs in enumerate(all_freqs):
         all_freqs[i] = np.array(freqs)
 
-    if show_mean_freqs:
+    if show_mean_freqs:     #creates a graph of the frequencies
         for i, freqs in enumerate(all_freqs):
             if freqs.shape[0] > 0:
                 plt.plot(np.mean(freqs, axis=0))
                 plt.title("mean freqencies for " + class_names[i])
                 plt.show()
 
-    if show_vars:
+    if show_vars:       #creates a graph of the variance
         for i, freqs in enumerate(all_freqs):
             if freqs.shape[0] > 0:
                 var_temp = np.var(freqs, axis=0)
                 plt.plot(var_temp)
-                var_array = np.append(var_array, var_temp)
+                var_array = np.append(var_array, var_temp)      #adds to the variance array
                 plt.title("variance for " + class_names[i])
                 plt.show()
 
+
+#creates variance file
 with open('training_output/variance.pickle', 'wb') as f:  # 'wb' stands for 'write bytes'
     pickle.dump(var_array, f)
 
@@ -155,7 +162,7 @@ exit()
 # X, y, idx_resampled = rus.fit_sample(X, y)
 
 
-print("Shuffling data")
+print("Shuffling data")     #shuffles the data
 X, y = shuffle(X, y)
 
 print("Finished feature extraction over {} windows".format(len(X)))
