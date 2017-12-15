@@ -94,11 +94,11 @@ X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
 data_size = len(data)
-data_scaling = arrange(1,data_size+1)
+data_scaling = arrange(1,data_size+2)
 data_scaling = shuffle(data_scaling)
 
-print("Shuffling data")
-data = shuffle(data)
+#print("Shuffling data")
+#data = shuffle(data)
 
 all_freqs = []
 for _ in range(len(class_names)):
@@ -116,7 +116,8 @@ for i, window_with_timestamp_and_label in enumerate(data):
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
 
-    x = x*data_scaling[i]/data_size      #this line makes the data increase linearly from 0% to 100%
+    #this scales the data with scalings that was linear from 1 to data_size+1 before being shuffled.
+    x = x*data_scaling[i]/data_size
 
     if (len(x) != X.shape[1]):
         print("Received feature vector of length {}. Expected feature vector of length {}.".format(len(x), X.shape[1]))
