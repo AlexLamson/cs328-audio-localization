@@ -107,7 +107,7 @@ for i, window_with_timestamp_and_label in enumerate(data):
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
 
-    x = x**(i+1)/data_size      #this line makes the data increase linearly from 0% to 100%
+    x = x*(i+1)/data_size      #this line makes the data increase linearly from 0% to 100%
 
     if (len(x) != X.shape[1]):
         print("Received feature vector of length {}. Expected feature vector of length {}.".format(len(x), X.shape[1]))
