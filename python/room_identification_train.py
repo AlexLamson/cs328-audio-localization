@@ -63,6 +63,10 @@ for filename in os.listdir(data_dir):
         sys.stdout.flush()
         data_file = os.path.join(data_dir, filename)
         data_for_current_room = np.genfromtxt(data_file, delimiter=',')
+
+        #print("Shuffling data")     #shuffles the data for individual rooms
+        #data_for_current_room = shuffle(data_for_current_room)
+
         print("Loaded {} raw labeled audio data samples.".format(len(data_for_current_room)))
         sys.stdout.flush()
         data = np.append(data, data_for_current_room, axis=0)
@@ -90,6 +94,11 @@ X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
 data_size = len(data)
+data_scaling = arrange(1,data_size+1)
+data_scaling = shuffle(data_scaling)
+
+print("Shuffling data")
+data = shuffle(data)
 
 all_freqs = []
 for _ in range(len(class_names)):
@@ -107,7 +116,7 @@ for i, window_with_timestamp_and_label in enumerate(data):
     # print("Extracting features for window " + str(i) + "...")
     x = feature_extractor.extract_features(window)
 
-    x = x*(i+1)/data_size      #this line makes the data increase linearly from 0% to 100%
+    x = x*data_scaling[i]/data_size      #this line makes the data increase linearly from 0% to 100%
 
     if (len(x) != X.shape[1]):
         print("Received feature vector of length {}. Expected feature vector of length {}.".format(len(x), X.shape[1]))
@@ -161,9 +170,6 @@ exit()
 # rus = RandomUnderSampler(return_indices=True)
 # X, y, idx_resampled = rus.fit_sample(X, y)
 
-
-print("Shuffling data")     #shuffles the data
-X, y = shuffle(X, y)
 
 print("Finished feature extraction over {} windows".format(len(X)))
 print("Unique labels found: {}".format(set(y)))
