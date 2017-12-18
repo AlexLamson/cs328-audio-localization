@@ -29,6 +29,7 @@ from sklearn.utils import shuffle
 from sklearn.model_selection import KFold
 from sklearn.metrics import confusion_matrix
 import pickle
+from tqdm import tqdm
 
 
 # %%---------------------------------------------------------------------------
@@ -47,7 +48,8 @@ if not os.path.exists(output_dir):
 # the filenames should be in the form 'room-data-subject-1.csv', e.g. 'room-data-Erik-1.csv'. If they
 # are not, that's OK but the progress output will look nonsensical
 
-class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
+# class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
+class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323 eng_lab_306'.split()
 # class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 
 data = np.zeros((0, 8002))  # 8002 = 1 (timestamp) + 8000 (for 8kHz audio data) + 1 (label)
@@ -94,7 +96,7 @@ X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
 data_size = len(data)
-data_scaling = arrange(1,data_size+2)
+data_scaling = np.arange(1,data_size+2)
 data_scaling = shuffle(data_scaling)
 
 #print("Shuffling data")
@@ -104,7 +106,7 @@ all_freqs = []
 for _ in range(len(class_names)):
     all_freqs += [[]]
 
-for i, window_with_timestamp_and_label in enumerate(data):
+for i, window_with_timestamp_and_label in tqdm(enumerate(data), total=len(data)):
     window = window_with_timestamp_and_label[1:-1]
     label = data[i, -1]
 
@@ -125,7 +127,7 @@ for i, window_with_timestamp_and_label in enumerate(data):
     X = np.append(X, np.reshape(x, (1, -1)), axis=0)
     y = np.append(y, label)
 
-show_graphs = True
+show_graphs = False
 
 show_mean_freqs = True
 show_vars = True
@@ -159,8 +161,6 @@ if show_graphs:
 #creates variance file
 with open('training_output/variance.pickle', 'wb') as f:  # 'wb' stands for 'write bytes'
     pickle.dump(var_array, f)
-
-exit()
 
 # print("oversampling the data")
 # from imblearn.over_sampling import SMOTE
@@ -296,7 +296,8 @@ best_score = 0
 
 
 # # Random Forest
-for i in [10, 20, 50]:  # 100 takes too long to train with double the features
+for i in [50]:  # 100 takes too long to train with double the features
+# for i in [10, 20, 50]:  # 100 takes too long to train with double the features
 # for i in [1, 2, 3]:  # 100 takes too long to train with double the features
 # for i in [1, 2, 3, 4, 5, 10, 15, 20, 30, 40, 50]:  # 100 takes too long to train with double the features
 # for i in list(range(1,41)):  # 100 takes too long to train with double the features

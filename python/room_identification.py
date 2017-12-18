@@ -36,6 +36,7 @@ send_socket.connect(("none.cs.umass.edu", 9999))
 # Load the classifier:
 
 output_dir = 'training_output'
+# classifier_filename = 'classifier.pickle'
 classifier_filename = 'classifier.pickle'
 
 with open(os.path.join(output_dir, classifier_filename), 'rb') as f:
@@ -74,11 +75,11 @@ def predict(window):
     X = np.reshape(X, (1, -1))
 
     # TODO: change these labels to match your classes
-    # classes = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
-    classes = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
+    class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323 eng_lab_306'.split()
+    # class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
 
     index = classifier.predict(X)
-    speaker = classes[int(index)]
+    speaker = class_names[int(index)]
 
     print("Speaker : {}".format(speaker))
 

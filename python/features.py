@@ -52,7 +52,7 @@ class FeatureExtractor():
         #     out += 923
         # if pitches:
         #     out += 17
-        out = 1000 + 8
+        out = 1000 + 8 #- 75
         return out
 
     def _compute_frequencies(self, audio_buffer):
@@ -390,5 +390,7 @@ class FeatureExtractor():
         # if pitches:
         #     x = np.append(x, self._compute_pitch_features(window))
         x = self._compute_frequencies(window)
+
+        # x = x[75:]
 
         return x
