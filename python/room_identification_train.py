@@ -295,8 +295,10 @@ best_score = 0
 #         best_score = score
 
 
+n_array = []
+
 # # Random Forest
-for i in [50]:  # 100 takes too long to train with double the features
+for i in [1, 2, 3]:  # 100 takes too long to train with double the features
 # for i in [10, 20, 50]:  # 100 takes too long to train with double the features
 # for i in [1, 2, 3]:  # 100 takes too long to train with double the features
 # for i in [1, 2, 3, 4, 5, 10, 15, 20, 30, 40, 50]:  # 100 takes too long to train with double the features
@@ -307,10 +309,17 @@ for i in [50]:  # 100 takes too long to train with double the features
     score = evaluate_model(clf)
     print("average precision recall: {:.3f}".format(score))
 
+    n_array = np.append(n_array, score)
+
     if score > best_score:
         best_clf = clf
         best_score = score
 
+import matplotlib.pyplot as plt
+
+plt.plot(np.arrange(1, len(n_array)+1), n_array)
+plt.title("n_estimators and f scores")
+plt.show()
 
 # # Random Forest
 # parameters = {'n_estimators':[50],'criterion':['gini'],'max_depth':[50],'min_samples_leaf':[2],'class_weight':['balanced']}
