@@ -297,8 +297,10 @@ best_score = 0
 
 n_array = []
 
+x_values = np.arange(1, 51)
+
 # # Random Forest
-for i in [1, 2, 3]:  # 100 takes too long to train with double the features
+for i in x_values:  # 100 takes too long to train with double the features
 # for i in [10, 20, 50]:  # 100 takes too long to train with double the features
 # for i in [1, 2, 3]:  # 100 takes too long to train with double the features
 # for i in [1, 2, 3, 4, 5, 10, 15, 20, 30, 40, 50]:  # 100 takes too long to train with double the features
@@ -317,7 +319,9 @@ for i in [1, 2, 3]:  # 100 takes too long to train with double the features
 
 import matplotlib.pyplot as plt
 
-plt.plot(np.arrange(1, len(n_array)+1), n_array)
+
+
+plt.plot(x_values, n_array)
 plt.title("n_estimators and f scores")
 plt.show()
 
