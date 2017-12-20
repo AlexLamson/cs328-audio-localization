@@ -3,7 +3,7 @@ Writeup
 
 Goal
 ----
-The goal of this project was the create an app that can identify which room it is in from the ambient sounds the phone picks up. We recorded lots of data in various rooms which we used to train a classifier. It will then try to identify which of those rooms it is in. See Recording Descriptions for details on what we recorded.
+The goal of this project was the create an app that can identify which room it is in from the ambient sounds the phone picks up. We recorded lots of data in various rooms which we used to train a classifier. It will then try to identify which of those rooms it is in. See "Recording Descriptions" for details on what we recorded.
 
 
 Data Collection
@@ -25,17 +25,19 @@ To remove the effects of volume we created an array the same size as the data wi
 
 To remove talking or any other kind of sounds that are not specific to the room we decided to remove sounds from the data if its variance was too high. We made an array of the variance and found the highest 10 values and removed the features those values came from. This in theory should leave the data with only the ambient noises that are always in the room.
 
+
+Results and Images
+------------------
+TODO: add confusion matrix and scores of best apt classifier and/or best eng_lab classifier
+
 We plotted a graph for n_estimators and f scores. The file name is n_estimator_graph.JPG. We plotted the f scores we obtained when used n_estimators values from 1 to 50. We can see from the graph that around 10 to 15 the f scores begin to increase a lot less for each n estimator.
 
-
-Results
--------
-*EITHER PUT CONF MATRIX AND SCORES HERE OR REFER TO FILE WHERE THEY CAN BE FOUND*
+A screenshot of the app can be found at app_screenshot.png. We used the app created for the homeworks for recording data and presenting the predicted class.
 
 
 Next Steps
 ----------
-
+TODO: fill out this section with things that could be done to further improve the performance
 
 
 Recording descriptions
