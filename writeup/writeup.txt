@@ -1,10 +1,20 @@
 Writeup
 =======
 
+Goal
+----
 The goal of this project was the create an app that can identify which room it is in from the ambient sounds the phone picks up. We recorded lots of data in various rooms which we used to train a classifier. It will then try to identify which of those rooms it is in. See Recording Descriptions for details on what we recorded.
 
-We recorded in two areas: Chris and Alex's apartment and the Engineering Lab. For the Lab, we only used the rooms 306, 307B, 323, and the hallway.
 
+Data Collection
+---------------
+We recorded in two areas: Chris and Alex's apartment and the Engineering Lab. For the Lab, we only used the rooms 304, 307B, 323, and the hallway.
+
+There are more verbose descriptions of what was happening while the data was being collected at the bottom of this file, under "Recording descriptions".
+
+
+Results and Challenges
+----------
 The Engineering Lab had the best results. 307B specifically was the best because of the loud fan that is always on. 306 and the hallway both worked when it was quiet. If someone talked it was classified as 307B. 323 was classified correctly even when there was a class in it.
 
 The apartment ran into various issues. Some rooms did not have walls between them. This caused various issues when trying to classify them as separate rooms. In the bedrooms, the phone was placed on the bed which could absorb some the sound before it reached the mic. People were also talking during one of the recordings. The end result was that classifications jumped from room to room because some of them are very similar and if someone talked the classification changed to living room.
@@ -16,6 +26,17 @@ To remove the effects of volume we created an array the same size as the data wi
 To remove talking or any other kind of sounds that are not specific to the room we decided to remove sounds from the data if its variance was too high. We made an array of the variance and found the highest 10 values and removed the features those values came from. This in theory should leave the data with only the ambient noises that are always in the room.
 
 We plotted a graph for n_estimators and f scores. The file name is n_estimator_graph.JPG. We plotted the f scores we obtained when used n_estimators values from 1 to 50. We can see from the graph that around 10 to 15 the f scores begin to increase a lot less for each n estimator.
+
+
+Results
+-------
+*EITHER PUT CONF MATRIX AND SCORES HERE OR REFER TO FILE WHERE THEY CAN BE FOUND*
+
+
+Next Steps
+----------
+
+
 
 Recording descriptions
 ======================
