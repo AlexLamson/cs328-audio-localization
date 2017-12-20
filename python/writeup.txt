@@ -1,21 +1,21 @@
-writeup
+Writeup
 =======
 
-The goal of this project was the create an app that can identify which room it is in from the ambiant sounds the prhone picks up. We recorded lots of data in various rooms which we used to train a classifier. It will then try to identify which of those rooms it is in. See Recording Descriptions for details on what we recorded.
+The goal of this project was the create an app that can identify which room it is in from the ambient sounds the phone picks up. We recorded lots of data in various rooms which we used to train a classifier. It will then try to identify which of those rooms it is in. See Recording Descriptions for details on what we recorded.
 
-We recorded in two areas: Chris and Alex's apartment and the Engineering Lab. For the Lab we only used the rooms 306, 307B, 323, and the hallway.
+We recorded in two areas: Chris and Alex's apartment and the Engineering Lab. For the Lab, we only used the rooms 306, 307B, 323, and the hallway.
 
-The Engineering Lab had the best results. 307B specifically was the best because of the loud fan that is always on. 306 and the hallway both worked as long as it was quiet. If someone talked it was classified as 307B. 323 was classified correctly even when there was a class in it.
+The Engineering Lab had the best results. 307B specifically was the best because of the loud fan that is always on. 306 and the hallway both worked when it was quiet. If someone talked it was classified as 307B. 323 was classified correctly even when there was a class in it.
 
-The apartment ran into various issues. Some rooms did not have walls between them. This caused various issues when trying to classify them as seperate rooms. In the bedrooms the phone was placed on the bed which could absorb some the sound before it reached the mic. People were also talking during one of the recordings. The end result was that classifications jumped from room to room because some of them are very similar and if someone talked the classification changed to living room.
+The apartment ran into various issues. Some rooms did not have walls between them. This caused various issues when trying to classify them as separate rooms. In the bedrooms, the phone was placed on the bed which could absorb some the sound before it reached the mic. People were also talking during one of the recordings. The end result was that classifications jumped from room to room because some of them are very similar and if someone talked the classification changed to living room.
 
 We tried a few things to remove the effects of volume and talking.
 
 To remove the effects of volume we created an array the same size as the data with values starting at 1 increasing linearly to the size of the array. We then shuffled it. Then we amplified the data by the values of this array divided by the size of the array. This should result in the magnitude of the data being a random percent of itself with no percent used twice. This in theory would make the data not be overfitted to volume.
 
-To remove talking or any other kind of sounds that are not specific to the room we decided to remove sounds from the data if its variance was too high. We made an array of the variance and found the highest 10 values and removed the features those values came from. This in theory should leave the data with only the ambiant noises that are always in the room.
+To remove talking or any other kind of sounds that are not specific to the room we decided to remove sounds from the data if its variance was too high. We made an array of the variance and found the highest 10 values and removed the features those values came from. This in theory should leave the data with only the ambient noises that are always in the room.
 
-We plotted a graph for n_estimators and f scores. The file name is n_estimator_graph.JPG. We plotted the f scores we obtained when used n estimators values from 1 to 50. We can see from the graph that around 10 to 15 the f scores begin to increase a lot less for each n estimator.
+We plotted a graph for n_estimators and f scores. The file name is n_estimator_graph.JPG. We plotted the f scores we obtained when used n_estimators values from 1 to 50. We can see from the graph that around 10 to 15 the f scores begin to increase a lot less for each n estimator.
 
 Recording descriptions
 ======================
@@ -56,13 +56,13 @@ eng_lab_304-1
 -------------
 room 304 in engineering lab
 phone placed on right (from perspective of a student) table in the middle on the edge closest to the desks
-both door were open, and the classroom was empty save two people talking
+both doors were open, and the classroom was empty save two people talking
 2:26pm-2:36pm
 coughing from hallway
 people walking around
 muttering from the corner of the classroom
 doors opening
-the hvac humming
+the HVAC humming
 sighs from hallway
 talking from the hallway
 person talking normally in left doorway
@@ -78,7 +78,7 @@ eng_lab_307B-1
 lots of keyboard typing
 some muttering from people in the room
 sound of lecturer in opposite room (room 306)
-recording ended earlier than desired due to wifi connection issues
+recording ended earlier than desired due to Wi-Fi connection issues
 
 eng_lab_307B-2
 ------------
@@ -124,20 +124,20 @@ downstairs_bathroom-1
 08:55:48 PM - 09:29:18 PM (33.5 minutes)
 phone was on right side of sink
 tv was on playing "the voice"
-michelle and alex talked a bit
+Michelle and Alex talked a bit
 the first 15 minutes, the door was open
 the second 15 minutes, the door was closed
 
 chris_bedroom-2
 ---------
-10:01:41 PM - 10:30:53 PM (27.8500666667 minutes)
+10:01:41 PM - 10:30:53 PM (27.85 minutes)
 phone was on middle of desk
 first 15 min, door open
 second 15 min, door closed
 
 living_room-2
 -------------
-10:51:38 PM - 12:52:21 AM (120.73335 minutes)
+10:51:38 PM - 12:52:21 AM (120.73 minutes)
 phone is on rug in middle of room
 tv is on playing "house hunters international"
 sounds from the game "7"
@@ -145,7 +145,7 @@ contains lots of speaking by Michelle and Alex and Chris and Q
 
 eng_lab_307B-3
 ---------
-12:19:17 PM - 12:29:51 PM (10.5666333333 minutes)
+12:19:17 PM - 12:29:51 PM (10.56 minutes)
 lots of keyboard typing
 some muttering from people in the room
 sound of lecturer in opposite room (room 306)
@@ -153,6 +153,6 @@ sound of lecturer in opposite room (room 306)
 eng_lab_hallway_box-2
 ---------
 phone was balanced on top of box
-12:35:34 PM - 12:50:40 PM (15.1062166667 minutes)
+12:35:34 PM - 12:50:40 PM (15.10 minutes)
 sound of doors opening and closing
 sounds of stepping
