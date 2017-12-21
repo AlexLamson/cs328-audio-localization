@@ -288,7 +288,7 @@ best_score = 0
 #     clf = DecisionTreeClassifier(criterion="entropy", max_depth=7, max_features=i)
 #     score = evaluate_model(clf)
 #     # print("Used features:", clf.n_features_)
-#     print("average precision recall: {:.3f}".format(score))
+#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -309,7 +309,7 @@ for i in x_values:  # 100 takes too long to train with double the features
     print("Evaluating Random Forest with n_estimators={}".format(i))
     clf = RandomForestClassifier(n_estimators=i)
     score = evaluate_model(clf)
-    print("average precision recall: {:.3f}".format(score))
+    print("average f-score: {:.3f}".format(score))
 
     n_array = np.append(n_array, score)
 
@@ -334,7 +334,7 @@ plt.show()
 # clf = GridSearchCV(clf, parameters)
 # score = evaluate_model(clf)
 # print(clf.best_params_)
-# print("average precision recall: {:.3f}".format(score))
+# print("average f-score: {:.3f}".format(score))
 # if score > best_score:
 #     best_clf = clf
 #     best_score = score
@@ -347,7 +347,7 @@ plt.show()
 #     print("Evaluating k-NN with k={}".format(i))
 #     clf = KNeighborsClassifier(n_neighbors=i, weights='distance')
 #     score = evaluate_model(clf)
-#     print("average precision recall: {:.3f}".format(score))
+#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -360,7 +360,7 @@ plt.show()
 #     print("Evaluating Logistic Regression with C={}".format(i))
 #     clf = LogisticRegression(C=i)
 #     score = evaluate_model(clf)
-#     print("average precision recall: {:.3f}".format(score))
+#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -373,7 +373,7 @@ plt.show()
 #     print("Evaluating Support Vector Machine with C={}".format(i))
 #     clf = SVC()
 #     score = evaluate_model(clf)
-#     print("average precision recall: {:.3f}".format(score))
+#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
