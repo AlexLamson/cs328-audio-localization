@@ -32,9 +32,15 @@ import pickle
 from tqdm import tqdm
 
 
+# the filenames should be in the form 'room-data-subject-1.csv', e.g. 'room-data-Erik-1.csv'. If they
+# are not, that's OK but the progress output will look nonsensical
+class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323 eng_lab_306'.split()
+# class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
+
+
 # %%---------------------------------------------------------------------------
 #
-#		                 Load Data From Disk
+#                        Load Data From Disk
 #
 # -----------------------------------------------------------------------------
 
@@ -45,15 +51,8 @@ output_dir = 'training_output'  # directory where the classifier(s) are stored
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 
-# the filenames should be in the form 'room-data-subject-1.csv', e.g. 'room-data-Erik-1.csv'. If they
-# are not, that's OK but the progress output will look nonsensical
-
-# class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323'.split()
-class_names = 'eng_lab_304 eng_lab_hallway_box eng_lab_307B eng_lab_323 eng_lab_306'.split()
-# class_names = 'chris_bedroom downstairs_bathroom kitchen living_room staircase alex_bedroom upstairs_bathroom'.split()
-
 data = np.zeros((0, 8002))  # 8002 = 1 (timestamp) + 8000 (for 8kHz audio data) + 1 (label)
-
+classes_we_have_data_for = []
 for filename in os.listdir(data_dir):
     if filename.endswith(".csv") and filename.startswith("room-data"):
         filename_components = filename.split("-")  # split by the '-' character
@@ -61,6 +60,8 @@ for filename in os.listdir(data_dir):
         print("Loading data for {}.".format(room))
         if room not in class_names:
             class_names.append(room)
+        if room not in classes_we_have_data_for:
+            classes_we_have_data_for.append(room)
         room_label = class_names.index(room)
         sys.stdout.flush()
         data_file = os.path.join(data_dir, filename)
@@ -77,17 +78,15 @@ print("Found data for {} rooms : {}".format(len(class_names), ", ".join(class_na
 
 # %%---------------------------------------------------------------------------
 #
-#		                Extract Features & Labels
+#                       Extract Features & Labels
 #
 # -----------------------------------------------------------------------------
 
 # change debug to True to show print statements we've included:
 feature_extractor = FeatureExtractor(debug=False)
 
-# You may need to change this depending on how you compute your features
-# n_features = 20 + 0 + 75  # 20 formant features + 16 pitch contour features + 75 mfcc delta coefficients
-n_features = feature_extractor.get_n_features() #11 + 17 + 975# + 923 # 11 formant features, 17 pitch contour features, 975 mfcc deltas, 923 delta deltas
-# n_features = 11 + 0 + 0  # 11 formant features, 975 mfcc deltas
+# the feature extractor class ensures that the number of features is consistent
+n_features = feature_extractor.get_n_features()
 
 print("Extracting features and labels for {} audio windows...".format(data.shape[0]))
 sys.stdout.flush()
@@ -95,12 +94,10 @@ sys.stdout.flush()
 X = np.zeros((0, n_features))
 y = np.zeros(0,)
 
+print("Note: data scaling is turned on")
 data_size = len(data)
-data_scaling = np.arange(1,data_size+2)
+data_scaling = np.arange(1, data_size+2)
 data_scaling = shuffle(data_scaling)
-
-#print("Shuffling data")
-#data = shuffle(data)
 
 all_freqs = []
 for _ in range(len(class_names)):
@@ -180,7 +177,7 @@ sys.stdout.flush()
 
 # %%---------------------------------------------------------------------------
 #
-#		                Train & Evaluate Classifier
+#                       Train & Evaluate Classifier
 #
 # -----------------------------------------------------------------------------
 
@@ -247,6 +244,14 @@ def evaluate_model(clf):
 
     conf_array = np.array(conf_array)
     conf_mean = np.mean(conf_array, axis=0)
+
+    # remove classes that have no data (otherwise they bring down the f-score a lot)
+    classes_we_dont_have_data_for = set(class_names) - set(classes_we_have_data_for)
+    indices_to_remove = [class_names.index(missing_class) for missing_class in classes_we_dont_have_data_for]
+    indices_to_remove = sorted(indices_to_remove, reverse=True)
+    conf_mean = np.delete(conf_mean, indices_to_remove, axis=0)
+    conf_mean = np.delete(conf_mean, indices_to_remove, axis=1)
+
     # DEBUG
     print("Average confusion matrix:")
     print(conf_mean)
@@ -260,21 +265,23 @@ def evaluate_model(clf):
     # average accuracy, precision, recall over the k-folds
     averages = np.zeros(shape=(len(labels), 3))
     for label in label_nums:
-        count = metric_counts[label]
-        count = 1 if count == 0 else count
-        accuracy, precision, recall = metric_sums[label][0] / count, metric_sums[label][1] / count, metric_sums[label][2] / count
-        averages[label, :] = [accuracy, precision, recall]
-        # DEBUG
-        print("{:>8} | avg accuracy: {:.3f} avg precision: {:.3f} avg recall: {:.3f}".format(class_names[label], accuracy, precision, recall))
+        if label not in indices_to_remove:
+            count = metric_counts[label]
+            count = 1 if count == 0 else count
+            accuracy, precision, recall = metric_sums[label][0]/count, metric_sums[label][1]/count, metric_sums[label][2]/count
+            averages[label, :] = [accuracy, precision, recall]
+            # DEBUG
+            print("{:>8} | avg accuracy: {:.3f} avg precision: {:.3f} avg recall: {:.3f}".format(class_names[label], accuracy, precision, recall))
+    averages = np.delete(averages, indices_to_remove, axis=0)
+    averages = np.delete(averages, indices_to_remove, axis=1)
     avg_accuracy, avg_precision, avg_recall = np.mean(averages[:,0]), np.mean(averages[:,1]), np.mean(averages[:,2])
     print("{:>8} | avg accuracy: {:.3f} avg precision: {:.3f} avg recall: {:.3f}".format("average", avg_accuracy, avg_precision, avg_recall))
     # print("averages: {}".format(averages))
-    
+
     f_score = (2*avg_precision*avg_recall)/(avg_precision+avg_recall)
+    print("average f-score: {:.3f}".format(f_score))
     return f_score
     # return np.mean(averages[1:])  # this is kinda bad, but it's nice to have a single number
-
-
 
 
 best_clf = None
@@ -288,42 +295,43 @@ best_score = 0
 #     clf = DecisionTreeClassifier(criterion="entropy", max_depth=7, max_features=i)
 #     score = evaluate_model(clf)
 #     # print("Used features:", clf.n_features_)
-#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
 #         best_score = score
 
 
-n_array = []
 
-x_values = np.arange(1, 51)
+# n_array = []
+# x_values = np.arange(1, 51)
 
 # # Random Forest
-for i in x_values:  # 100 takes too long to train with double the features
-# for i in [10, 20, 50]:  # 100 takes too long to train with double the features
-# for i in [1, 2, 3]:  # 100 takes too long to train with double the features
-# for i in [1, 2, 3, 4, 5, 10, 15, 20, 30, 40, 50]:  # 100 takes too long to train with double the features
-# for i in list(range(1,41)):  # 100 takes too long to train with double the features
+for i in [12]:
+# for i in x_values:
+# for i in [10, 20, 50]:
+# for i in [1, 2, 3]:
+# for i in [1, 2, 3, 4, 5, 10, 15, 20, 30, 40, 50]:
+# for i in list(range(1,41)):
     print("~" * 20)
     print("Evaluating Random Forest with n_estimators={}".format(i))
     clf = RandomForestClassifier(n_estimators=i)
     score = evaluate_model(clf)
-    print("average f-score: {:.3f}".format(score))
 
-    n_array = np.append(n_array, score)
+
+    # n_array = np.append(n_array, score)
 
     if score > best_score:
         best_clf = clf
         best_score = score
 
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
+# plt.plot(x_values, n_array)
+# plt.title("n_estimators and f scores")
+# plt.show()
 
 
 
-plt.plot(x_values, n_array)
-plt.title("n_estimators and f scores")
-plt.show()
 
 # # Random Forest
 # parameters = {'n_estimators':[50],'criterion':['gini'],'max_depth':[50],'min_samples_leaf':[2],'class_weight':['balanced']}
@@ -334,7 +342,6 @@ plt.show()
 # clf = GridSearchCV(clf, parameters)
 # score = evaluate_model(clf)
 # print(clf.best_params_)
-# print("average f-score: {:.3f}".format(score))
 # if score > best_score:
 #     best_clf = clf
 #     best_score = score
@@ -347,7 +354,6 @@ plt.show()
 #     print("Evaluating k-NN with k={}".format(i))
 #     clf = KNeighborsClassifier(n_neighbors=i, weights='distance')
 #     score = evaluate_model(clf)
-#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -360,7 +366,6 @@ plt.show()
 #     print("Evaluating Logistic Regression with C={}".format(i))
 #     clf = LogisticRegression(C=i)
 #     score = evaluate_model(clf)
-#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
@@ -373,7 +378,6 @@ plt.show()
 #     print("Evaluating Support Vector Machine with C={}".format(i))
 #     clf = SVC()
 #     score = evaluate_model(clf)
-#     print("average f-score: {:.3f}".format(score))
 
 #     if score > best_score:
 #         best_clf = clf
