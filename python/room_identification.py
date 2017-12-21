@@ -21,6 +21,9 @@ import pickle
 from features import FeatureExtractor
 import os
 
+# classifier_filename = 'classifier.pickle'
+classifier_filename = 'classifier.pickle'
+
 # TODO: Replace the string with your user ID
 user_id = "crubnpi6wk4ckhsp"
 
@@ -34,10 +37,7 @@ send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 send_socket.connect(("none.cs.umass.edu", 9999))
 
 # Load the classifier:
-
 output_dir = 'training_output'
-# classifier_filename = 'classifier.pickle'
-classifier_filename = 'classifier.pickle'
 
 with open(os.path.join(output_dir, classifier_filename), 'rb') as f:
     classifier = pickle.load(f)
