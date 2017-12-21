@@ -39,6 +39,8 @@ Next Steps
 ----------
 TODO: fill out this section with things that could be done to further improve the performance
 
+Merge the room which don't have barrier (like doors) between them (staircase, living room, kitchen).
+
 
 Recording descriptions
 ======================
