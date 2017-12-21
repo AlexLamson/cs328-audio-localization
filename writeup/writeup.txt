@@ -28,8 +28,6 @@ To remove talking or any other kind of sounds that are not specific to the room 
 
 Results and Images
 ------------------
-TODO: add confusion matrix and scores of best apt classifier and/or best eng_lab classifier
-
 We plotted a graph for n_estimators and f scores. The file name is n_estimator_graph.JPG. We plotted the f scores we obtained when used n_estimators values from 1 to 50. We can see from the graph that around 10 to 15 the f scores begin to increase a lot less for each n estimator.
 
 A screenshot of the app can be found at app_screenshot.png. We used the app created for the homeworks for recording data and presenting the predicted class.
